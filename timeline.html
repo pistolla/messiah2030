@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Messiah 2030 Timeline</title>
+<style>body{margin:0;background:#111;color:#eee;font:12px sans-serif}</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script>
+const c=document.getElementById('c'), ctx=c.getContext('2d');
+const START=-4000, END=2040, PX=3, H=180;
+c.width=(END-START)*PX; c.height=H;
+function X(y){return(y-START)*PX}
+function box(a,b,fill){
+    ctx.fillStyle=fill; ctx.fillRect(X(a),0,X(b)-X(a),H);
+}
+function line(y,width=1){
+    ctx.beginPath();ctx.strokeStyle='#555';ctx.lineWidth=width;
+    ctx.moveTo(X(y),0);ctx.lineTo(X(y),H);ctx.stroke();
+}
+// --- paint ---
+// jubilee bands (every 50)
+for(let j=START;j<END;j+=50)box(j,j+49,'rgba(249,199,79,.15)');
+// daniel 70-w
+box(-458,-458+49,'rgba(144,224,239,.25)');   // 7 weeks
+box(-458+49,26,'rgba(144,224,239,.25)');     // 62 weeks
+box(26,26+3.5,'rgba(6,218,160,.35)');        // 3½ ministry
+box(2027,2030,'rgba(6,218,160,.35)');        // 3½ tribulation
+// punishment
+box(-701,-701+2730,'rgba(248,150,30,.15)');  // Israel 390×7
+box(70,70+1960,'rgba(248,150,30,.15)');      // Judah 40×49
+// key lines
+[-458,26,30,2027,2030].forEach(y=>line(y,2));
+// labels
+ctx.fillStyle='#eee';
+[-458,26,30,2027,2030].forEach(y=>{
+    ctx.fillText(y+' CE',X(y)+2,H-10);
+});
+ctx.fillStyle='#06d6a0'; ctx.font='bold 14px sans-serif';
+ctx.fillText('7-7-7  Yom Teruah 2030',X(2030)-60,30);
+</script>
+</body>
+</html>
