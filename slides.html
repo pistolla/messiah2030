@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Image Grid → Swipe & Zoom Modal</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#06b6d4;--muted:#94a3b8}
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#071029);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;color:#e6eef6}
+    .container{max-width:1100px;margin:36px auto;padding:18px}
+    h1{margin:0 0 18px;font-size:20px;font-weight:600}
+
+    /* Grid */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:10px;overflow:hidden;cursor:pointer;position:relative;min-height:120px}
+    .card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+    .card:focus{outline:3px solid rgba(6,182,212,.18)}
+    .card:hover img{transform:scale(1.04)}
+    .caption{position:absolute;left:8px;bottom:8px;background:rgba(2,6,23,.55);padding:6px 8px;border-radius:6px;font-size:12px;color:var(--muted)}
+
+    /* Modal overlay */
+    .overlay{position:fixed;inset:0;background:rgba(2,6,23,.75);display:none;align-items:center;justify-content:center;z-index:999}
+    .overlay.show{display:flex}
+    .viewer{position:relative;width:95vw;height:90vh;background:#071424;border-radius:12px;box-shadow:0 10px 40px rgba(2,6,23,.7);overflow:hidden;display:flex;align-items:center;justify-content:center}
+
+    .slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform .35s ease,opacity .25s ease}
+    .slide img{max-width:100%;max-height:100%;object-fit:contain;user-select:none;cursor:grab;transition:transform .2s ease}
+    .slide img:active{cursor:grabbing}
+
+    /* Navigation */
+    .nav-button{position:absolute;top:50%;transform:translateY(-50%);background:rgba(2,6,23,.46);border:none;padding:12px;border-radius:10px;backdrop-filter:blur(2px);cursor:pointer;z-index:10}
+    .nav-button:hover{background:rgba(2,6,23,.6)}
+    .prev{left:12px}
+    .next{right:12px}
+    .close{position:absolute;right:12px;top:12px;background:rgba(2,6,23,.46);padding:8px;border-radius:8px;border:none;z-index:10}
+
+    .meta{position:absolute;left:12px;bottom:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(2,6,23,.4));padding:8px 10px;border-radius:8px;font-size:13px;z-index:10}
+
+    /* small screen tweaks */
+    @media (max-width:640px){
+      .grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+      .viewer{height:85vh;border-radius:8px}
+      .nav-button{padding:10px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Image gallery (from JSON) — click to open presentation</h1>
+    <p style="color:var(--muted);margin-top:6px;margin-bottom:18px">Touch or drag left/right in the modal to swipe. Pinch or scroll to zoom.
+    </p>
+
+    <div id="grid" class="grid" aria-live="polite"></div>
+  </div>
+
+  <!-- Overlay modal viewer -->
+  <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <div class="viewer" id="viewer">
+      <!-- slides inserted dynamically -->
+      <button class="nav-button prev" id="prevBtn" aria-label="Previous image">◀</button>
+      <button class="nav-button next" id="nextBtn" aria-label="Next image">▶</button>
+      <button class="close" id="closeBtn" aria-label="Close viewer">✕</button>
+      <div id="meta" class="meta"></div>
+    </div>
+  </div>
+
+  <script>
+    const sampleJSON = [
+      {"src":"timeline1.png","title":"Biblical Chronology: From creation to the Kingdom","description":"Biblical Chronology: From creation to the Kingdom"},
+      {"src":"timeline2.png","title":"The 7-Day Prophetic Week","description":"1 day = 1000years"},
+      {"src":"timeline3.png","title":"The Jubilee Cycle","description":"50 year units"},
+      {"src":"timeline4.png","title":"Daniel's 70 Weeks","description":"Daniel 9"},
+      {"src":"timeline5.png","title":"Two Prophetic Clocks Converge","description":"Two Prophetic Clocks Converge"},
+      {"src":"timeline6.png","title":"Key Life Events of the Messiah","description":"Key Life Events of the Messiah"},
+      {"src":"timeline7.png","title":"The final 3 1/2 years","description":"The final 3 1/2 years"},
+      {"src":"timeline8.png","title":"Historical & Textual Witness","description":"Historical & Textual Witness"},
+      {"src":"timeline21.png","title":"Bible & Prophecy master chronology","description":"Bible & Prophecy master chronology"},
+      {"src":"timeline22.png","title":"Jubilee","description":"Jubilee"},
+      {"src":"timeline23.png","title":"Day 1000 year Pattern","description":"Day 1000 year Pattern"},
+      {"src":"timeline24.png","title":"Seventy Weeks Daniel","description":"Seventy Weeks Daniel"},
+      {"src":"timeline25.png","title":"House of Israel and Judah Punishment Cycles","description":"Punishment Cycles"},
+      {"src":"timeline26.png","title":"Abomination Return Micro","description":"Abomination Return Micro"},
+      {"src":"timeline27.png","title":"Birth Ministry","description":"Birth Ministry"},
+      {"src":"timeline28.png","title":"","description":""},
+      {"src":"timeline29.png","title":"","description":""},
+      {"src":"timeline291.png","title":"","description":""}
+
+    ];
+
+    let images = sampleJSON.slice();
+
+    const grid = document.getElementById('grid');
+    const overlay = document.getElementById('overlay');
+    const viewer = document.getElementById('viewer');
+    const meta = document.getElementById('meta');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const closeBtn = document.getElementById('closeBtn');
+
+    let currentIndex = 0;
+    let scale = 1;
+    let panX = 0, panY = 0;
+    let isPanning = false, startX=0, startY=0;
+
+    function buildGrid(){
+      grid.innerHTML = '';
+      images.forEach((it, idx) => {
+        const card = document.createElement('button');
+        card.className = 'card';
+        card.setAttribute('aria-label', `Open ${it.title || 'image ' + (idx+1)}`);
+        card.type = 'button';
+        const img = document.createElement('img');
+        img.loading = 'lazy';
+        img.src = it.src;
+        img.alt = it.title || '';
+        const caption = document.createElement('div');
+        caption.className = 'caption';
+        caption.textContent = it.title || '';
+        card.appendChild(img);
+        card.appendChild(caption);
+        card.addEventListener('click', ()=>openViewer(idx));
+        grid.appendChild(card);
+      });
+    }
+
+    function openViewer(index){
+      currentIndex = index;
+      overlay.classList.add('show');
+      renderSlides();
+      updateMeta();
+      document.body.style.overflow = 'hidden';
+      viewer.focus();
+    }
+
+    function closeViewer(){
+      overlay.classList.remove('show');
+      document.body.style.overflow = '';
+      viewer.querySelectorAll('.slide').forEach(el=>el.remove());
+    }
+
+    function renderSlides(){
+      [...viewer.querySelectorAll('.slide')].forEach(el => el.remove());
+
+      const prevIndex = (currentIndex - 1 + images.length) % images.length;
+      const nextIndex = (currentIndex + 1) % images.length;
+
+      const createSlide = (idx, offset) => {
+        const s = document.createElement('div');
+        s.className = 'slide';
+        s.style.transform = `translateX(${offset * 100}%)`;
+        s.dataset.index = idx;
+        const img = document.createElement('img');
+        img.src = images[idx].src;
+        img.alt = images[idx].title || '';
+        img.addEventListener('wheel', zoomHandler);
+        img.addEventListener('mousedown', startPan);
+        s.appendChild(img);
+        viewer.insertBefore(s, prevBtn);
+      }
+
+      createSlide(prevIndex, -1);
+      createSlide(currentIndex, 0);
+      createSlide(nextIndex, 1);
+      resetZoom();
+    }
+
+    function resetZoom(){
+      scale=1; panX=0; panY=0;
+      applyTransform();
+    }
+
+    function applyTransform(){
+      const currentSlide = viewer.querySelector('.slide[style*="translateX(0%"] img');
+      if(currentSlide){
+        currentSlide.style.transform = `scale(${scale}) translate(${panX}px, ${panY}px)`;
+      }
+    }
+
+    function zoomHandler(e){
+      e.preventDefault();
+      const delta = e.deltaY < 0 ? 0.1 : -0.1;
+      scale = Math.min(Math.max(1, scale + delta), 4);
+      applyTransform();
+    }
+
+    function startPan(e){
+      if(scale<=1) return;
+      isPanning=true; startX=e.clientX-panX; startY=e.clientY-panY;
+      const move=(ev)=>{
+        if(!isPanning) return;
+        panX=ev.clientX-startX; panY=ev.clientY-startY;
+        applyTransform();
+      };
+      const up=()=>{isPanning=false;window.removeEventListener('mousemove',move);window.removeEventListener('mouseup',up)};
+      window.addEventListener('mousemove',move);
+      window.addEventListener('mouseup',up);
+    }
+
+    function showNext(){
+      currentIndex = (currentIndex + 1) % images.length;
+      animateTo(-1);
+    }
+    function showPrev(){
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      animateTo(1);
+    }
+
+    function animateTo(direction){
+      const slides = [...viewer.querySelectorAll('.slide')];
+      slides.forEach(s => {
+        const currentTranslate = getTranslatePercent(s.style.transform);
+        const newTranslate = currentTranslate + (direction * 100);
+        s.style.transform = `translateX(${newTranslate}%)`;
+      });
+
+      setTimeout(()=>{
+        renderSlides();
+        updateMeta();
+      }, 360);
+    }
+
+    function getTranslatePercent(transform){
+      const m = /translateX\((-?\d+(?:\.\d+)?)%\)/.exec(transform || 'translateX(0%)');
+      return m ? Number(m[1]) : 0;
+    }
+
+    function updateMeta(){
+      const it = images[currentIndex] || {};
+      meta.textContent = `${currentIndex+1} / ${images.length} — ${it.title || ''}`;
+    }
+
+    window.addEventListener('keydown', (e)=>{
+      if (!overlay.classList.contains('show')) return;
+      if (e.key === 'ArrowRight') { showNext(); }
+      else if (e.key === 'ArrowLeft') { showPrev(); }
+      else if (e.key === 'Escape') { closeViewer(); }
+    });
+
+    nextBtn.addEventListener('click', showNext);
+    prevBtn.addEventListener('click', showPrev);
+    closeBtn.addEventListener('click', closeViewer);
+
+    overlay.addEventListener('click', (e)=>{ if (e.target === overlay) closeViewer(); });
+
+    let startXTouch = 0, startTime = 0;
+    viewer.addEventListener('touchstart', (e)=>{
+      if (!e.touches || !e.touches[0]) return;
+      startXTouch = e.touches[0].clientX; startTime = Date.now();
+    }, {passive:true});
+
+    viewer.addEventListener('touchend', (e)=>{
+      const dx = (e.changedTouches && e.changedTouches[0]) ? (e.changedTouches[0].clientX - startXTouch) : 0;
+      const dt = Date.now() - startTime;
+      if (Math.abs(dx) > 50 && dt < 500){ if (dx < 0) showNext(); else showPrev(); }
+    });
+
+    buildGrid();
+  </script>
+</body>
+</html>

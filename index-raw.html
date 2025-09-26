@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Messiah 2030 – 13 Sections Explorer</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: "Helvetica Neue", Arial, sans-serif; background: #fff; color: #000; }
+        /* ======== Layout ======== */
+        #sidebar {
+            position: fixed;
+            top: 0; left: 0; width: 200px; height: 100vh;
+            border-right: 1px solid #000;
+            overflow-y: auto; padding: 20px;
+        }
+        #sidebar h2 { font-size: 14px; margin-bottom: 12px; text-transform: uppercase; }
+        #sidebar button {
+            display: block; width: 100%; text-align: left;
+            background: #fff; border: 1px solid #000;
+            padding: 8px 10px; margin-bottom: 6px;
+            cursor: pointer; font-size: 12px;
+        }
+        #sidebar button:hover { background: #f0f0f0; }
+        #content {
+            margin-left: 200px; padding: 30px 40px;
+        }
+        #content h1 { font-size: 20px; margin-bottom: 20px; }
+        .section { display: none; }
+        .section.active { display: block; }
+        /* ======== Two-Column Body ======== */
+        .columns { display: flex; gap: 30px; }
+        .left-col, .right-col {
+            flex: 1; display: flex; flex-direction: column;
+        }
+        .left-col p.desc {
+            font-size: 13px; line-height: 1.6; margin-bottom: 15px;
+            min-height: 100px; /* 350 chars ≈ 3 lines */
+        }
+        .left-col .questions {
+            font-size: 13px; line-height: 1.5;
+            white-space: pre-wrap; margin-bottom: 15px;
+        }
+        .left-col .conclusion {
+            font-size: 13px; font-weight: 600; margin-bottom: 20px;
+        }
+        .right-col textarea {
+            width: 100%; min-height: 400px;
+            border: 1px solid #000; padding: 10px;
+            font-size: 12px; resize: vertical;
+        }
+        /* ======== Print ======== */
+        @media print {
+            #sidebar { display: none; }
+            #content { margin-left: 0; }
+            .section { display: block !important; page-break-after: always; }
+            .right-col textarea { border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="sidebar">
+    <h2>Select Section</h2>
+    <button onclick="showSection(1)">01. Seal Opened Now</button>
+    <button onclick="showSection(2)">02. Multiple Fulfilments</button>
+    <button onclick="showSection(3)">03. Bible Maths</button>
+    <button onclick="showSection(4)">04. 7 Creation Days</button>
+    <button onclick="showSection(5)">05. Israel’s Divorce</button>
+    <button onclick="showSection(6)">06. 70 Weeks</button>
+    <button onclick="showSection(7)">07. Birth Forensics</button>
+    <button onclick="showSection(8)">08. Menorah & Feasts</button>
+    <button onclick="showSection(9)">09. Last 3½ Years</button>
+    <button onclick="showSection(10)">10. Revelation Countdown</button>
+    <button onclick="showSection(11)">11. Extra Witnesses</button>
+    <button onclick="showSection(12)">12. Objections FAQ</button>
+    <button onclick="showSection(13)">13. Personal Tracker</button>
+</div>
+
+<div id="content">
+    <h1 id="title">Choose a section from the left</h1>
+
+    <!-- ========== 01 ========== -->
+    <div class="section" id="s1">
+        <h1>01. Seal Opened Now</h1>
+        <div class="columns">
+            <div class="left-col">
+                <p class="desc">Daniel was told to seal the book until the time of the end; the same Messiah who said no one knows the day in the first century later promised that when we see all these things we know that He is near—an unsealing triggered by exponential knowledge increase, not by mystical intuition.</p>
+                <div class="questions">• What verb tense is "no one knows" in Matthew 24:36?  
+• How does Revelation 3:3 invert the "thief" idiom?  
+• List three modern technologies that function as Daniel’s flashlight.</div>
+                <div class="conclusion">The timeline was sealed for the early church but is legally discoverable for the generation that sees the fig tree bud.</div>
+            </div>
+            <div class="right-col">
+                <textarea placeholder="Your notes here..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 02 ========== -->
+    <div class="section" id="s2">
+        <h1>02. Multiple Fulfilments</h1>
+        <div class="columns">
+            <div class="left-col">
+                <p class="desc">Isaiah’s Immanuel child, Jonah’s three days, and Daniel’s 70 weeks all rhyme on a near/far cadence: a micro-event in the prophet’s own century and a macro-event at the end of the age—teaching us to read prophecy like Russian nesting dolls, not like single-use tickets.</p>
+                <div class="questions">• Quote Hosea 6:2 and list both fulfilments.  
+• Why is Antiochus IV insufficient for Daniel’s little-horn vision?  
+• Give an example of a New-Testament author citing a double fulfilment.</div>
+                <div class="conclusion">Every fulfilled prophecy is a down-payment on a larger bill still due.</div>
+            </div>
+            <div class="right-col">
+                <textarea placeholder="Your notes here..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 03 ========== -->
+    <div class="section" id="s3">
+        <h1>03. Bible Maths</h1>
+        <div class="columns">
+            <div class="left-col">
+                <p class="desc">Jubilee 50, day = 1000, 40 × 50 = 2000, 120 × 50 = 6000—Scripture embeds macro-calendar units inside micro-stories, turning cubits, days, and gematria into a celestial slide-rule that always lands on 30 CE and 2030 CE when slid forward.</p>
+                <div class="questions">• Show the maths for 46 temple-years → 2300.  
+• Why can’t Daniel 9 use 360-day “prophetic years”?  
+• Convert 2000 cubits to kilometres and to metaphor years.</div>
+                <div class="conclusion">Biblical numbers are not decoration; they are dimensional constants.</div>
+            </div>
+            <div class="right-col">
+                <textarea placeholder="Your notes here..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 04 ========== -->
+    <div class="section" id="s4">
+        <h1>04. 7 Creation Days = 7 Millennia</h1>
+        <div class="columns">
+            <div class="left-col">
+                <p class="desc">Genesis 1 is a 7-day schematic for 7 000 years of human drama: light separated day-1 = fall & gospel; day-2 waters = flood; day-4 sun = 4th-millennium Messiah; day-7 rest = millennium—revealing the end from the beginning in black-and-white pixels.</p>
+                <div class="questions">• Quote 2 Peter 3:8 and Psalm 90:4.  
+• Draw day-4 to day-7 on a timeline.  
+• Explain the Hebrew “one-two-one” separation-reunion pattern.</div>
+                <div class="conclusion">The cosmos itself is a calendar-stick.</div>
+            </div>
+            <div class="right-col">
+                <textarea placeholder="Your notes here..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 05 ========== -->
+    <div class="section" id="s5">
+        <h1>05. Israel’s Divorce & Seven-Fold Punishment</h1>
+        <div class="columns">
+            <div class="left-col">
+                <p class="desc">Ezekiel 4 measures 390 years for Israel and 40 for Judah; Leviticus 26 mandates ×7 for non-repentance – producing 2 730 and 1 960-year cycles that both zero in 2030 AD, turning national discipline into a twin-engine countdown.</p>
+                <div class="questions">• Perform both ×7 calculations step-by-step.  
+• Show why 701 BC and 30 AD are the trigger events.  
+• Calculate the statistical probability of both ending 2030.</div>
+                <div class="conclusion">The same year that ends Judah’s cycles also ends Israel’s – once in history.</div>
+            </div>
+            <div class="right-col">
+                <textarea placeholder="Your notes here..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 06 ========== -->
+    <div class="section" id="s6">
+        <h1>06. 70 Weeks of Daniel</h1>
+        <div class="columns">
+            <div class="left-col">
+                <p class="desc">Artaxerxes’ 458 BC decree starts 69 weeks (483 yrs) → Messiah anointed 26 AD; last 7 yrs pause at 30 AD, leaving 3½ yrs to run 2027-2030 – a metronome that measures both grace and tribulation.</p>
+                <div class="questions">• Add 483 solar years to 458 BC and show landing year.  
+• Explain Hebrew gabar “confirm” vs “make” covenant.  
+• Draw the 2 000-year gap on a Gantt chart.</div>
+                <div class="conclusion">Daniel 9 is not continuous; it is a stop-watch with a 40-Jubilee pause.</div>
+            </div>
+            <div class="right-col">
+                <textarea placeholder="Your notes here..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 07 ========== -->
+    <div class="section" id="s7">
+        <h1>07. Birth Forensics</h1>
+        <div class="columns">
+            <div class="left-col">
+                <p class="desc">Lunar eclipse 13 Mar 4 BC, Macrobius’ infanticide timing, priestly course Abijah and Sukkot overcrowding dock Messiah’s birth at 15 Tishri 5 BC – 3 months before Egypt escape, mirroring Moses down to the lunar minute.</p>
+                <div class="questions">• Run Stellarium for the eclipse and print screenshot.  
+• Count 6 months from John’s conception to Jesus’.  
+• Explain why “no room in inn” = Sukkot overflow.</div>
+                <div class="conclusion">The manger was a harvest hut and the birthday was on the Feast of Harvest Huts.</div>
+            </div>
+            <div class="right-col">
+                <textarea placeholder="Your notes here..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 08 ========== -->
+    <div class="section" id="s8">
+        <h1>08. Menorah, Temple & Feasts</h1>
+        <div class="columns">
+            <div class="left-col">
+                <p class="desc">The golden menorah is a 7-lamp timeline: lamp 4 = 4th millennium Messiah; central lamp = Sabbath millennium; feast dress-rehearsals lock spring fulfilments to 30 CE and autumn returns to 2030 – furniture that functions as a cosmic calendar.</p>
+                <div class="questions">• Count the cups-calyx-flower units and show 1500-2000-1000 pattern.  
+• Match each feast to its 30 CE or 2030 fulfilment.  
+• Explain why 4th lamp is both left-and-right count.</div>
+                <div class="conclusion">The Tabernacle is a 3-D slide-rule; every cubic cubit is a century.</div>
+            </div>
+            <div class="right-col">
+                <textarea placeholder="Your notes here..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 09 ========== -->
+    <div class="section" id="s9">
+        <h1>09. Last 3½ Years</h1>
+        <div class="columns">
+            <div class="left-col">
+                <p class="desc">1260, 1290 and 1335 days all begin spring 2027 (Abomination) and end on Hanukkah 2030 – forming a triple-stop-watch that turns Revelation’s trumpets and bowls into a day-by-day countdown inside Daniel’s final half-week.</p>
+                <div class="questions">• Calculate 1260 days from 27 Mar 2027.  
+• Show why 1335 lands on Hanukkah.  
+• Map the 7 trumpets / 7 bowls onto those days.</div>
+                <div class="conclusion">The last half-week is not seven years; it is three-and-a-half years with three alarm bells.</div>
+            </div>
+            <div class="right-col">
+                <textarea placeholder="Your notes here..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 10 ========== -->
+    <div class="section" id="s10">
+        <h1>10. Revelation Countdown</h1>
+        <div class="columns">
+            <div class="left-col">
+                <p class="desc">Seals warn, trumpets damage 1/3, bowls totalise – all squeezed inside 2027-2030. The 7th trumpet and 7th bowl sound/pour the same hour on Trumpets 2030, turning warning into execution and announcing the Sabbath millennium.</p>
+                <div class="questions">• Place seals-trumpets-bowls on a single timeline.  
+• Show the 1/3 → total escalation.  
+• Explain the hour-of-silence between 6th and 7th trumpet.</div>
+                <div class="conclusion">Revelation is not three wars; it is one war in three intensities.</div>
+            </div>
+            <div class="right-col">
+                <textarea placeholder="Your notes here..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 11 ========== -->
+    <div class="section" id="s11">
+        <h1>11. Extra Witnesses</h1>
+        <div class="columns">
+            <div class="left-col">
+                <p class="desc">From Lamech 777 to Ruth 6 measures, 40-day Goliath to 2-denarii Good Samaritan, 52 micro-prophecies outside Daniel all land on 30 CE or 2030 – a statistical cluster whose combined probability is < 1 in 10^60, making coincidence irrational.</p>
+                <div class="questions">• List any 10 micro-prophecies and their landing years.  
+• Compute the combined probability of 52 hits.  
+• Compare to grains-of-sand analogy.</div>
+                <div class="conclusion">The Bible is a treasure map where every clue has the same big X on 2030.</div>
+            </div>
+            <div class="right-col">
+                <textarea placeholder="Your notes here..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 12 ========== -->
+    <div class="section" id="s12">
+        <h1>12. Objections FAQ</h1>
+        <div class="columns">
+            <div class="left-col">
+                <p class="desc">360-day years, pre-trib rapture, “no one knows,” calendar chaos, 1844 vs 2030 – every major objection is answered by Hebrew verbs, astronomical data, and probability math, inviting scrutiny rather than fear.</p>
+                <div class="questions">• Refute 360-day prophetic years using Daniel 9 context.  
+• Explain present-tense “no one knows” and Rev 3:3 inverse.  
+• Show why pre-trib rapture is after 7th trumpet.</div>
+                <div class="conclusion">A falsifiable prediction is not fear-mongering; it is an open laboratory.</div>
+            </div>
+            <div class="right-col">
+                <textarea placeholder="Your notes here..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 13 ========== -->
+    <div class="section" id="s13">
+        <h1>13. Personal Tracker</h1>
+        <div class="columns">
+            <div class="left-col">
+                <p class="desc">Check-boxes, calendar-sync links, and blank tables let you track repentance steps, prayer targets, and study progress – turning global prophecy into personal discipleship that ends in readiness, not panic.</p>
+                <div class="questions">• Print and tick the 52-prophecy checklist.  
+• Set monthly alarm for 2030-countdown prayer.  
+• Write your own micro-prophecy discovery.</div>
+                <div class="conclusion">The purpose of biblical end-times is a call to repentance – and the clock is ticking.</div>
+            </div>
+            <div class="right-col">
+                <textarea placeholder="Your notes here..."></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showSection(n) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById('s' + n).classList.add('active');
+        document.getElementById('title').textContent = document.querySelector('#s' + n + ' h1').textContent;
+    }
+    // default open
+    showSection(1);
+</script>
+
+</body>
+</html>
