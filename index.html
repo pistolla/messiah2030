@@ -92,6 +92,24 @@
             border: none; 
             font-weight: 600;
         }
+        
+        .slide { 
+            margin-top: 10px; 
+            background: var(--accent-color); 
+            color: green; 
+            display: block; 
+            width: 100%; 
+            text-align: left;
+            background: white; 
+            border: 1px solid var(--border-color);
+            padding: 12px 15px; 
+            margin-bottom: 8px; 
+            cursor: pointer; 
+            font-size: 13px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
 
         #printBtn:hover { 
             background: #704012; 
@@ -451,6 +469,7 @@
     <div id="sidebar">
         <h2>Select Section</h2>
         <button id="printBtn">Print Current Section</button>
+        <a href="slides.html" type="button" class="slide">Slides</a>
     </div>
 
     <div id="content"></div>
